@@ -1,0 +1,132 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  GODOT_VERSION: 4.4.1
+  GODOT_RELEASE: 4.4.1-stable
+
+jobs:
+  test:
+    name: Headless smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Godot binary
+        id: cache-godot
+        uses: actions/cache@v4
+        with:
+          path: ~/godot
+          key: godot-${{ env.GODOT_RELEASE }}-linux
+
+      - name: Install Godot
+        if: steps.cache-godot.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/godot && cd ~/godot
+          curl -fsSL -o godot.zip \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_RELEASE}/Godot_v${GODOT_RELEASE}_linux.x86_64.zip"
+          unzip -q godot.zip
+          mv "Godot_v${GODOT_RELEASE}_linux.x86_64" godot
+          chmod +x godot
+
+      - name: Import project
+        # The first import populates .godot/ and resolves every class_name.
+        # It is run twice because resources that reference a script class can
+        # fail to resolve on a completely cold cache.
+        run: |
+          ~/godot/godot --headless --path . --import || true
+          ~/godot/godot --headless --path . --import
+
+      - name: Run smoke test
+        run: |
+          set -o pipefail
+          ~/godot/godot --headless --path . res://tests/smoke_test.tscn 2>&1 | tee test-output.txt
+
+      - name: Fail on engine errors
+        # A non-zero exit catches failed assertions; this catches script
+        # errors and leaks that Godot reports without changing the exit code.
+        run: |
+          if grep -qE "SCRIPT ERROR|ObjectDB instances leaked|resources still in use" test-output.txt; then
+            echo "::error::Engine reported errors or leaks during the smoke test"
+            grep -nE "SCRIPT ERROR|ObjectDB instances leaked|resources still in use" test-output.txt
+            exit 1
+          fi
+
+  build:
+    name: Export ${{ matrix.preset }}
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - preset: Web
+            path: build/web/index.html
+            artifact: astra-web
+            dir: build/web
+          - preset: Linux
+            path: build/linux/astra.x86_64
+            artifact: astra-linux
+            dir: build/linux
+          - preset: Windows
+            path: build/windows/astra.exe
+            artifact: astra-windows
+            dir: build/windows
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Godot and export templates
+        id: cache-godot
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/godot
+            ~/.local/share/godot/export_templates
+          key: godot-templates-${{ env.GODOT_RELEASE }}-linux
+
+      - name: Install Godot and export templates
+        if: steps.cache-godot.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/godot && cd ~/godot
+          curl -fsSL -o godot.zip \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_RELEASE}/Godot_v${GODOT_RELEASE}_linux.x86_64.zip"
+          unzip -q godot.zip
+          mv "Godot_v${GODOT_RELEASE}_linux.x86_64" godot
+          chmod +x godot
+
+          cd /tmp
+          curl -fsSL -o templates.tpz \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_RELEASE}/Godot_v${GODOT_RELEASE}_export_templates.tpz"
+          unzip -q templates.tpz
+          mkdir -p ~/.local/share/godot/export_templates
+          mv templates "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+
+      - name: Import project
+        run: |
+          ~/godot/godot --headless --path . --import || true
+          ~/godot/godot --headless --path . --import
+
+      - name: Export
+        run: |
+          mkdir -p "${{ matrix.dir }}"
+          ~/godot/godot --headless --path . --export-release "${{ matrix.preset }}" \
+            "${GITHUB_WORKSPACE}/${{ matrix.path }}"
+
+      - name: Check the export produced something
+        run: |
+          if [ -z "$(ls -A '${{ matrix.dir }}')" ]; then
+            echo "::error::${{ matrix.preset }} export directory is empty"
+            exit 1
+          fi
+          ls -la "${{ matrix.dir }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.dir }}
+          if-no-files-found: error

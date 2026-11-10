@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="EnemyType" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/enemy_type.gd" id="1_enemy_type"]
+
+[resource]
+script = ExtResource("1_enemy_type")
+id = &"charger"
+display_name = "Charger"
+colour = Color(0.92, 0.55, 0.25, 1)
+radius = 18.0
+max_health = 5.0
+speed = 62.0
+knockback = 70.0
+behaviour = 1
+contact_damage = 1
+attack_interval = 0.9
+dash_speed = 470.0
+dash_telegraph = 0.45
+dash_duration = 0.3
+dash_interval = 2.1
+preferred_range = 230.0
+projectile_speed = 185.0
+fire_interval = 1.9
+points = 25
+unlock_wave = 3
+spawn_cost = 2.0
+spawn_weight = 2.0

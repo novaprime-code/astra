@@ -1,0 +1,86 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_main_menu"]
+
+[node name="MainMenu" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main_menu")
+
+[node name="Title" type="Label" parent="."]
+offset_left = 340.0
+offset_top = 118.0
+offset_right = 940.0
+offset_bottom = 206.0
+theme_override_colors/font_color = Color(0.95, 0.72, 0.33, 1)
+theme_override_font_sizes/font_size = 76
+text = "ASTRA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="."]
+offset_left = 340.0
+offset_top = 206.0
+offset_right = 940.0
+offset_bottom = 238.0
+theme_override_colors/font_color = Color(0.58, 0.59, 0.68, 1)
+theme_override_font_sizes/font_size = 20
+text = "draw the bow. nothing else will save you."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Controls" type="Label" parent="."]
+offset_left = 340.0
+offset_top = 290.0
+offset_right = 940.0
+offset_bottom = 470.0
+theme_override_colors/font_color = Color(0.72, 0.73, 0.8, 1)
+theme_override_font_sizes/font_size = 19
+text = "WASD  move
+MOUSE  aim
+HOLD LEFT CLICK  draw the bow, release to fire
+SPACE  dodge
+RIGHT CLICK / Q  astra volley
+ESC  pause"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Play" type="Button" parent="."]
+offset_left = 560.0
+offset_top = 498.0
+offset_right = 720.0
+offset_bottom = 544.0
+theme_override_font_sizes/font_size = 22
+text = "PLAY"
+
+[node name="Quit" type="Button" parent="."]
+offset_left = 560.0
+offset_top = 554.0
+offset_right = 720.0
+offset_bottom = 594.0
+theme_override_font_sizes/font_size = 18
+text = "QUIT"
+
+[node name="Best" type="Label" parent="."]
+offset_left = 340.0
+offset_top = 616.0
+offset_right = 940.0
+offset_bottom = 642.0
+theme_override_colors/font_color = Color(0.58, 0.59, 0.68, 1)
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Credit" type="Label" parent="."]
+offset_left = 340.0
+offset_top = 668.0
+offset_right = 940.0
+offset_bottom = 694.0
+theme_override_colors/font_color = Color(0.38, 0.39, 0.46, 1)
+theme_override_font_sizes/font_size = 15
+text = "open source · MIT · github.com/novaprime-code/astra"
+horizontal_alignment = 1
+vertical_alignment = 1

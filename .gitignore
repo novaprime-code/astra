@@ -1,0 +1,21 @@
+# Godot 4 generated files
+.godot/
+/android/
+
+# Build output
+build/
+export/
+*.pck
+*.zip
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Python bytecode from tools/
+__pycache__/
+*.pyc

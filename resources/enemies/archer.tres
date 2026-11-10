@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="EnemyType" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/enemy_type.gd" id="1_enemy_type"]
+
+[resource]
+script = ExtResource("1_enemy_type")
+id = &"archer"
+display_name = "Archer"
+colour = Color(0.55, 0.42, 0.78, 1)
+radius = 14.0
+max_health = 2.0
+speed = 98.0
+knockback = 150.0
+behaviour = 2
+contact_damage = 1
+attack_interval = 0.75
+dash_speed = 340.0
+dash_telegraph = 0.45
+dash_duration = 0.28
+dash_interval = 2.2
+preferred_range = 240.0
+projectile_speed = 195.0
+fire_interval = 1.75
+points = 35
+unlock_wave = 4
+spawn_cost = 2.5
+spawn_weight = 1.6

@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
+
+[node name="HUD" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hud")
+
+[node name="Score" type="Label" parent="."]
+offset_left = 1020.0
+offset_top = 26.0
+offset_right = 1236.0
+offset_bottom = 74.0
+theme_override_colors/font_color = Color(0.92, 0.93, 0.97, 1)
+theme_override_font_sizes/font_size = 36
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Combo" type="Label" parent="."]
+offset_left = 1020.0
+offset_top = 72.0
+offset_right = 1236.0
+offset_bottom = 98.0
+theme_override_colors/font_color = Color(0.95, 0.76, 0.35, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Wave" type="Label" parent="."]
+offset_left = 490.0
+offset_top = 34.0
+offset_right = 790.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.58, 0.59, 0.68, 1)
+theme_override_font_sizes/font_size = 20
+text = "WAVE 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Banner" type="Label" parent="."]
+offset_left = 290.0
+offset_top = 136.0
+offset_right = 990.0
+offset_bottom = 196.0
+theme_override_colors/font_color = Color(0.95, 0.72, 0.33, 1)
+theme_override_font_sizes/font_size = 38
+horizontal_alignment = 1
+vertical_alignment = 1

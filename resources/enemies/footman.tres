@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="EnemyType" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/enemy_type.gd" id="1_enemy_type"]
+
+[resource]
+script = ExtResource("1_enemy_type")
+id = &"footman"
+display_name = "Footman"
+colour = Color(0.79, 0.31, 0.31, 1)
+radius = 15.0
+max_health = 3.0
+speed = 84.0
+knockback = 110.0
+behaviour = 0
+contact_damage = 1
+attack_interval = 0.75
+dash_speed = 340.0
+dash_telegraph = 0.45
+dash_duration = 0.28
+dash_interval = 2.2
+preferred_range = 230.0
+projectile_speed = 185.0
+fire_interval = 1.9
+points = 10
+unlock_wave = 1
+spawn_cost = 1.0
+spawn_weight = 3.0
